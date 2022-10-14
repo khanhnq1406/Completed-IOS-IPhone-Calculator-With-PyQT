@@ -9,8 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-MAX_LEN_POSITIVE = 999999999
-MAX_LEN_NEGATIVE = -999999999
+MAX_LEN_POSITIVE = 9
+MAX_LEN_NEGATIVE = 10
 
 class Ui_MainWindow(object):
         def setupUi(self, MainWindow):
@@ -165,17 +165,17 @@ class Ui_MainWindow(object):
                 self.multiplication = QtWidgets.QPushButton(self.centralwidget)
                 self.multiplication.setGeometry(QtCore.QRect(330, 320, 81, 81))
 
-                self.comma = QtWidgets.QPushButton(self.centralwidget)
-                self.comma.setGeometry(QtCore.QRect(230, 620, 81, 81))
+                self.dot = QtWidgets.QPushButton(self.centralwidget)
+                self.dot.setGeometry(QtCore.QRect(230, 620, 81, 81))
                 font = QtGui.QFont()
                 font.setFamily("Noto Mono")
                 font.setPointSize(16)
-                self.comma.setFont(font)
-                self.comma.setStyleSheet("QPushButton {background-color: rgb(49, 49, 49);\n" 
+                self.dot.setFont(font)
+                self.dot.setStyleSheet("QPushButton {background-color: rgb(49, 49, 49);\n" 
                                                         "border-radius : 40;\n"
                                                         "color: rgb(255, 255, 255)}"
                                          "QPushButton:pressed { background-color: #737373}""")
-                self.comma.setObjectName("comma")
+                self.dot.setObjectName("dot")
 
                 font = QtGui.QFont()
                 font.setFamily("Noto Mono")
@@ -273,8 +273,22 @@ class Ui_MainWindow(object):
                 self.percent.setText(_translate("MainWindow", "%"))
                 self.negative.setText(_translate("MainWindow", "+/-"))
                 self.acButton.setText(_translate("MainWindow", "AC"))
-                self.comma.setText(_translate("MainWindow", ","))        
+                self.dot.setText(_translate("MainWindow", "."))        
                 self.label.setText(str(result))
+        def convertToNumber (self, number):
+                if str(number).find('.') == -1:
+                        return int(number)
+                else:
+                        return float(number)
+        def deleteFirstZero(self):
+                global numberInput
+                if str(numberInput).find('.') == -1:
+                        for runner in numberInput:
+                                if runner == '0' and len(numberInput) > 1:
+                                        numberInput = str(numberInput)[1:]
+                                elif runner == '0' and len(numberInput) <= 1: 
+                                        return      
+                                else: break
         def buttonClick(self):
                 self.number0.clicked.connect(self.number0Clicked)
                 self.number1.clicked.connect(self.number1Clicked)
@@ -294,81 +308,92 @@ class Ui_MainWindow(object):
                 self.multiplication.clicked.connect(self.multiplicationClicked)
                 self.division.clicked.connect(self.divisionClicked)
                 self.percent.clicked.connect(self.percentClicked)
+                self.dot.clicked.connect(self.dotClicked)
         def number0Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 0)*(not isNegative) + (numberInput*10 - 0)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '0' 
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number1Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 1)*(not isNegative) + (numberInput*10 - 1)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '1'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number2Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 2)*(not isNegative) + (numberInput*10 - 2)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '2'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number3Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 3)*(not isNegative) + (numberInput*10 - 3)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '3'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number4Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 4)*(not isNegative) + (numberInput*10 - 4)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '4'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number5Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 5)*(not isNegative) + (numberInput*10 - 5)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '5'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number6Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 6)*(not isNegative) + (numberInput*10 - 6)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '6'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number7Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 7)*(not isNegative) + (numberInput*10 - 7)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '7'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number8Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 8)*(not isNegative) + (numberInput*10 - 8)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '8'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def number9Clicked(self):
                 global numberInput
-                numberInput = (numberInput*10 + 9)*(not isNegative) + (numberInput*10 - 9)*isNegative
-                if numberInput > MAX_LEN_POSITIVE or numberInput < MAX_LEN_NEGATIVE:
-                        numberInput = int(numberInput / 10)
+                numberInput = str(numberInput) + '9'
+                self.deleteFirstZero()
+                if len(numberInput) > MAX_LEN_POSITIVE:
+                        numberInput = str(numberInput)[:-1]
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def acButtonClicked(self):
-                global numberInput, isNegative, result, calculation
-                numberInput = int(numberInput/10)
-                if numberInput == 0:
-                        isNegative = False
+                global numberInput, result, calculation
+                numberInput = str(numberInput)[:-1]
+                if numberInput == '':
+                        numberInput = '0'
                         result = 0
                         calculation = 0
                         self.addition.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
@@ -380,41 +405,54 @@ class Ui_MainWindow(object):
         def negativeClicked(self):
                 global numberInput, isNegative
                 isNegative = not isNegative
-                numberInput = -numberInput
+                numberInput = -self.convertToNumber(numberInput)
+                numberInput = str(numberInput)
                 self.label.setText(str(numberInput))
                 print (numberInput)
         def equalClicked(self):
                 global result, numberInput, calculation
                 if calculation == 1:
-                        result += numberInput
-                        numberInput = 0
+                        result = self.convertToNumber(result) + self.convertToNumber(numberInput)
+                        numberInput = '0'
+                        if len(str(result)) > MAX_LEN_POSITIVE:
+                                result = round(self.convertToNumber(result), 1)
                         self.label.setText(str(result))
                         print(result)
                 if calculation == 2:
-                        result -= numberInput
-                        numberInput = 0
+                        result = self.convertToNumber(result) - self.convertToNumber(numberInput)
+                        numberInput = '0'
+                        if len(str(result)) > MAX_LEN_POSITIVE:
+                                result = round(self.convertToNumber(result), 1)
                         self.label.setText(str(result))
                         print(result)
                 if calculation == 3:
-                        result *= numberInput
-                        numberInput = 0
+                        result = self.convertToNumber(result) * self.convertToNumber(numberInput)
+                        numberInput = '0'
+                        if len(str(result)) > MAX_LEN_POSITIVE:
+                                result = round(self.convertToNumber(result), 1)
                         self.label.setText(str(result))
                         print(result)
                 if calculation == 4:
-                        if numberInput != 0:
-                                result /= numberInput
-                                numberInput = 0
+                        if int(numberInput) if str(numberInput).find('.') == -1 else float(numberInput) != 0:
+                                result = self.convertToNumber(result) / self.convertToNumber(numberInput)
+                                numberInput = '0'
+                                if len(str(result)) > MAX_LEN_POSITIVE:
+                                        result = round(self.convertToNumber(result), 1)
                                 self.label.setText(str(result))
                                 print(result)
                         else:
-                                numberInput = 0
+                                numberInput = '0'
+                                result = 0
                                 self.label.setText(str("Error"))
                                 print("Error")
         def additionClicked(self):
                 global result, numberInput, calculation, isNegative
+                if (calculation == 1): return
                 calculation = 1
-                result += numberInput
-                numberInput = 0
+                print (str(numberInput).find('.'))
+                if self.convertToNumber(result) == 0:
+                        result = self.convertToNumber(numberInput)
+                numberInput = ''
                 isNegative = False
                 self.label.setText(str(result))
                 print(result)
@@ -424,13 +462,11 @@ class Ui_MainWindow(object):
                 self.division.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
         def subtractionClicked(self):
                 global result, numberInput, calculation, isNegative
+                if (calculation == 2): return
                 calculation = 2
-                if result == 0:
-                        result = numberInput
-                else:
-                        result -= numberInput
-                numberInput = 0
-                isNegative = False
+                if self.convertToNumber(result) == 0:
+                        result = self.convertToNumber(numberInput)
+                numberInput = ''
                 self.label.setText(str(result))
                 print(result)
                 self.subtraction.setStyleSheet("background-color: rgb(255, 255, 255); color: #f1a43c; border-radius : 40;")
@@ -439,13 +475,11 @@ class Ui_MainWindow(object):
                 self.division.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
         def multiplicationClicked(self):
                 global result, numberInput, calculation, isNegative
+                if (calculation == 3): return
                 calculation = 3
-                if result == 0:
-                        result = numberInput
-                # else:
-                #         result *= numberInput
-                numberInput = 0
-                isNegative = False
+                if self.convertToNumber(result) == 0:
+                        result = self.convertToNumber(numberInput)
+                numberInput = ''
                 self.label.setText(str(result))
                 print(result)
                 self.multiplication.setStyleSheet("background-color: rgb(255, 255, 255); color: #f1a43c; border-radius : 40;")
@@ -454,13 +488,11 @@ class Ui_MainWindow(object):
                 self.division.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
         def divisionClicked(self):
                 global result, numberInput, calculation, isNegative
+                if (calculation == 4): return
                 calculation = 4
                 if result == 0:
-                        result = numberInput
-                # else:
-                #         result /= numberInput
-                numberInput = 0
-                isNegative = False
+                        result = self.convertToNumber(numberInput)
+                numberInput = ''
                 self.label.setText(str(result))
                 print(result)
                 self.division.setStyleSheet("background-color: rgb(255, 255, 255); color: #f1a43c; border-radius : 40;")
@@ -468,16 +500,44 @@ class Ui_MainWindow(object):
                 self.subtraction.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
                 self.multiplication.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
         def percentClicked(self):
-                global result, numberInput
+                global result, numberInput, calculation
+                print ("Number  first: ", result, calculation, numberInput)
+                print ("Type  first: ",type(result), type(calculation), type(numberInput))
+                if (numberInput == ''): return
+                if result != 0 and calculation != 0 and self.convertToNumber(numberInput) != 0:
+                        numberInput = self.convertToNumber(numberInput) / 100
+                        if (len(str(numberInput)) > MAX_LEN_POSITIVE):
+                                numberInput = round(self.convertToNumber(numberInput), 1)
+                        self.label.setText(str(numberInput))
+                elif result == 0 and calculation == 0:
+                        numberInput = self.convertToNumber(numberInput) / 100
+                        if (len(str(numberInput)) > MAX_LEN_POSITIVE):
+                                numberInput = round(self.convertToNumber(numberInput), 1)
+                        self.label.setText(str(numberInput))
+                elif result != 0 and calculation != 0 and self.convertToNumber(numberInput) == 0:
+                        print ('In here')
+                        result = self.convertToNumber(result) / 100
+                        if (len(str(numberInput)) > MAX_LEN_POSITIVE):
+                                result = round(self.convertToNumber(result), 1)
+                        self.label.setText(str(result))
+                print ("Number  second: ", result, calculation, numberInput)
+                print ("Type  first: ",type(result), type(calculation), type(numberInput))
 
-                print(result, "percent clicked")
-                if result != 0:
-                        result /= 100
+        def dotClicked(self):
+                global numberInput
+                print ('Dot clicked')
+                if numberInput == '':
+                        numberInput += "0."
+                elif numberInput[len(numberInput) - 1] != '.' and str(numberInput).find('.') == -1:
+                        numberInput += '.'
+                elif numberInput[len(numberInput) - 1] != '.' and str(numberInput).find('.') != -1:
+                        return
                 else:
-                        result = numberInput / 100      
-                self.label.setText(str(result))
+                        numberInput = str(numberInput)[:-1]
+                self.label.setText(str(numberInput))
+                print (numberInput)
 global numberInput, result, isNegative, calculation
-numberInput = 0
+numberInput = ''
 result = 0
 isNegative = False
 calculation = 0 #1: addition, 2: subtraction, 3: multiplication, 4: division
