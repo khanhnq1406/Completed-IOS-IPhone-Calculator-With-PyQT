@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-MAX_LEN = 9
+from FormatNumber import *
 class Ui_MainWindow(object):
         def setupUi(self, MainWindow):
                 MainWindow.setObjectName("MainWindow")
@@ -273,25 +273,13 @@ class Ui_MainWindow(object):
                 self.acButton.setText(_translate("MainWindow", "AC"))
                 self.dot.setText(_translate("MainWindow", "."))        
                 self.label.setText(str(result))
-        def convertToNumber (self, number):
-                if str(number).find('.') == -1:
-                        return int(number)
-                else:
-                        return float(number)
-        def deleteFirstZero(self):
-                global numberInput
-                if str(numberInput).find('.') == -1:
-                        for runner in numberInput:
-                                if runner == '0' and len(numberInput) > 1:
-                                        numberInput = str(numberInput)[1:]
-                                elif runner == '0' and len(numberInput) <= 1: 
-                                        return      
-                                else: break
+
         def checkNegative(self):
                 global isNegative
                 if isNegative:
                         self.negativeClicked()
                         isNegative = False
+        
         def buttonClick(self):
                 self.number0.clicked.connect(self.number0Clicked)
                 self.number1.clicked.connect(self.number1Clicked)
@@ -316,94 +304,64 @@ class Ui_MainWindow(object):
                 global numberInput, isNegative
                 numberInput = str(numberInput) + '0' 
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number1Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '1'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number2Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '2'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number3Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '3'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number4Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '4'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number5Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '5'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number6Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '6'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number7Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '7'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number8Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '8'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def number9Clicked(self):
                 global numberInput
                 numberInput = str(numberInput) + '9'
                 self.checkNegative()
-                self.deleteFirstZero()
-                if len(numberInput) > MAX_LEN:
-                        numberInput = str(numberInput)[:-1]
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.deleteFirstZero(numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def acButtonClicked(self):
-                global numberInput, result, calculation
+                global numberInput, result, calculation, isNegative
                 numberInput = str(numberInput)[:-1]
                 if numberInput == '':
                         numberInput = '0'
@@ -419,44 +377,30 @@ class Ui_MainWindow(object):
         def negativeClicked(self):
                 global numberInput, isNegative
                 isNegative = not isNegative
-                if numberInput == '':
+                if numberInput == '' or numberInput == '0':
                         return
-                numberInput = -self.convertToNumber(numberInput)
+                numberInput = -FormatNumber.convertToNumber(numberInput)
                 isNegative = not isNegative
-                numberInput = str(numberInput)
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput = FormatNumber.displayNumber(self, numberInput, False)
         def equalClicked(self):
                 global result, numberInput, calculation
                 if calculation == 1:
-                        result = self.convertToNumber(result) + self.convertToNumber(numberInput)
+                        result = FormatNumber.convertToNumber(result) + FormatNumber.convertToNumber(numberInput)
                         numberInput = '0'
-                        if len(str(result)) > MAX_LEN:
-                                result = round(self.convertToNumber(result), 1)
-                        self.label.setText(str(result))
-                        print(result)
+                        result = FormatNumber.displayNumber(self, result, True)
                 if calculation == 2:
-                        result = self.convertToNumber(result) - self.convertToNumber(numberInput)
+                        result = FormatNumber.convertToNumber(result) - FormatNumber.convertToNumber(numberInput)
                         numberInput = '0'
-                        if len(str(result)) > MAX_LEN:
-                                result = round(self.convertToNumber(result), 1)
-                        self.label.setText(str(result))
-                        print(result)
+                        result = FormatNumber.displayNumber(self, result, True)
                 if calculation == 3:
-                        result = self.convertToNumber(result) * self.convertToNumber(numberInput)
+                        result = FormatNumber.convertToNumber(result) * FormatNumber.convertToNumber(numberInput)
                         numberInput = '0'
-                        if len(str(result)) > MAX_LEN:
-                                result = round(self.convertToNumber(result), 1)
-                        self.label.setText(str(result))
-                        print(result)
+                        result = FormatNumber.displayNumber(self, result, True)
                 if calculation == 4:
                         if int(numberInput) if str(numberInput).find('.') == -1 else float(numberInput) != 0:
-                                result = self.convertToNumber(result) / self.convertToNumber(numberInput)
+                                result = FormatNumber.convertToNumber(result) / FormatNumber.convertToNumber(numberInput)
                                 numberInput = '0'
-                                if len(str(result)) > MAX_LEN:
-                                        result = round(self.convertToNumber(result), 1)
-                                self.label.setText(str(result))
-                                print(result)
+                                result = FormatNumber.displayNumber(self, result, True)
                         else:
                                 numberInput = '0'
                                 result = 0
@@ -467,8 +411,8 @@ class Ui_MainWindow(object):
                 if (calculation == 1): return
                 calculation = 1
                 print (str(numberInput).find('.'))
-                if self.convertToNumber(result) == 0:
-                        result = self.convertToNumber(numberInput)
+                if FormatNumber.convertToNumber(result) == 0:
+                        result = FormatNumber.convertToNumber(numberInput)
                 numberInput = ''
                 isNegative = False
                 self.label.setText(str(result))
@@ -481,8 +425,8 @@ class Ui_MainWindow(object):
                 global result, numberInput, calculation, isNegative
                 if (calculation == 2): return
                 calculation = 2
-                if self.convertToNumber(result) == 0:
-                        result = self.convertToNumber(numberInput)
+                if FormatNumber.convertToNumber(result) == 0:
+                        result = FormatNumber.convertToNumber(numberInput)
                 numberInput = ''
                 self.label.setText(str(result))
                 print(result)
@@ -494,8 +438,8 @@ class Ui_MainWindow(object):
                 global result, numberInput, calculation, isNegative
                 if (calculation == 3): return
                 calculation = 3
-                if self.convertToNumber(result) == 0:
-                        result = self.convertToNumber(numberInput)
+                if FormatNumber.convertToNumber(result) == 0:
+                        result = FormatNumber.convertToNumber(numberInput)
                 numberInput = ''
                 self.label.setText(str(result))
                 print(result)
@@ -508,7 +452,7 @@ class Ui_MainWindow(object):
                 if (calculation == 4): return
                 calculation = 4
                 if result == 0:
-                        result = self.convertToNumber(numberInput)
+                        result = FormatNumber.convertToNumber(numberInput)
                 numberInput = ''
                 self.label.setText(str(result))
                 print(result)
@@ -521,28 +465,24 @@ class Ui_MainWindow(object):
                 print ("Number  first: ", result, calculation, numberInput)
                 print ("Type  first: ",type(result), type(calculation), type(numberInput))
                 if (numberInput == ''): return
-                if result != 0 and calculation != 0 and self.convertToNumber(numberInput) != 0:
-                        numberInput = self.convertToNumber(numberInput) / 100
+                if result != 0 and calculation != 0 and FormatNumber.convertToNumber(numberInput) != 0:
+                        numberInput = FormatNumber.convertToNumber(numberInput) / 100
                         if (len(str(numberInput)) > MAX_LEN):
-                                numberInput = round(self.convertToNumber(numberInput), 1)
+                                numberInput = round(FormatNumber.convertToNumber(numberInput), 1)
                         self.label.setText(str(numberInput))
                 elif result == 0 and calculation == 0:
-                        numberInput = self.convertToNumber(numberInput) / 100
+                        numberInput = FormatNumber.convertToNumber(numberInput) / 100
                         if (len(str(numberInput)) > MAX_LEN):
-                                numberInput = round(self.convertToNumber(numberInput), 1)
+                                numberInput = round(FormatNumber.convertToNumber(numberInput), 1)
                         self.label.setText(str(numberInput))
-                elif result != 0 and calculation != 0 and self.convertToNumber(numberInput) == 0:
+                elif result != 0 and calculation != 0 and FormatNumber.convertToNumber(numberInput) == 0:
                         print ('In here')
-                        result = self.convertToNumber(result) / 100
-                        if (len(str(numberInput)) > MAX_LEN):
-                                result = round(self.convertToNumber(result), 1)
+                        result = FormatNumber.convertToNumber(result) / 100
+                        if (len(str(result)) > MAX_LEN):
+                                result = round(FormatNumber.convertToNumber(result), 1)
                         self.label.setText(str(result))
-                print ("Number  second: ", result, calculation, numberInput)
-                print ("Type  first: ",type(result), type(calculation), type(numberInput))
-
         def dotClicked(self):
                 global numberInput
-                print ('Dot clicked')
                 if numberInput == '':
                         numberInput += "0."
                 elif numberInput[len(numberInput) - 1] != '.' and str(numberInput).find('.') == -1:
