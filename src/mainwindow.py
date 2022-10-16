@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from FormatNumber import *
+from ButtonClick import *
 class Ui_MainWindow(object):
         def setupUi(self, MainWindow):
                 MainWindow.setObjectName("MainWindow")
@@ -273,12 +274,6 @@ class Ui_MainWindow(object):
                 self.acButton.setText(_translate("MainWindow", "AC"))
                 self.dot.setText(_translate("MainWindow", "."))        
                 self.label.setText(str(result))
-
-        def checkNegative(self):
-                global isNegative
-                if isNegative:
-                        self.negativeClicked()
-                        isNegative = False
         
         def buttonClick(self):
                 self.number0.clicked.connect(self.number0Clicked)
@@ -302,78 +297,37 @@ class Ui_MainWindow(object):
                 self.dot.clicked.connect(self.dotClicked)
         def number0Clicked(self):
                 global numberInput, isNegative
-                numberInput = str(numberInput) + '0' 
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '0')
         def number1Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '1'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '1')
         def number2Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '2'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '2')
         def number3Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '3'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '3')
         def number4Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '4'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '4')
         def number5Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '5'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '5')
         def number6Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '6'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '6')
         def number7Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '7'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '7')
         def number8Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '8'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '8')
         def number9Clicked(self):
-                global numberInput
-                numberInput = str(numberInput) + '9'
-                self.checkNegative()
-                numberInput = FormatNumber.deleteFirstZero(numberInput)
-                numberInput = FormatNumber.displayNumber(self, numberInput, False)
+                global numberInput, isNegative
+                numberInput, isNegative = ButtonClick.numberClicked(self, numberInput, isNegative, '9')
         def acButtonClicked(self):
                 global numberInput, result, calculation, isNegative
-                numberInput = str(numberInput)[:-1]
-                if numberInput == '':
-                        numberInput = '0'
-                        result = 0
-                        calculation = 0
-                        isNegative = False
-                        self.addition.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
-                        self.subtraction.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
-                        self.multiplication.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
-                        self.division.setStyleSheet("background-color: #f1a43c; color: #ffffff; border-radius : 40;")
-                self.label.setText(str(numberInput))
-                print (numberInput)
+                numberInput, result, calculation, isNegative = ButtonClick.acButtonClicked(ui, numberInput, result, calculation, isNegative)
         def negativeClicked(self):
                 global numberInput, isNegative
                 isNegative = not isNegative
@@ -397,7 +351,7 @@ class Ui_MainWindow(object):
                         numberInput = '0'
                         result = FormatNumber.displayNumber(self, result, True)
                 if calculation == 4:
-                        if int(numberInput) if str(numberInput).find('.') == -1 else float(numberInput) != 0:
+                        if FormatNumber.convertToNumber(numberInput) != 0:
                                 result = FormatNumber.convertToNumber(result) / FormatNumber.convertToNumber(numberInput)
                                 numberInput = '0'
                                 result = FormatNumber.displayNumber(self, result, True)
@@ -476,13 +430,13 @@ class Ui_MainWindow(object):
                                 numberInput = round(FormatNumber.convertToNumber(numberInput), 1)
                         self.label.setText(str(numberInput))
                 elif result != 0 and calculation != 0 and FormatNumber.convertToNumber(numberInput) == 0:
-                        print ('In here')
                         result = FormatNumber.convertToNumber(result) / 100
                         if (len(str(result)) > MAX_LEN):
                                 result = round(FormatNumber.convertToNumber(result), 1)
                         self.label.setText(str(result))
         def dotClicked(self):
                 global numberInput
+                numberInput = str(numberInput)
                 if numberInput == '':
                         numberInput += "0."
                 elif numberInput[len(numberInput) - 1] != '.' and str(numberInput).find('.') == -1:
